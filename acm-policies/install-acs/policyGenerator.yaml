@@ -126,11 +126,11 @@ policySets:
       that will install the OpenShift Advanced Cluster Security using best practices. 
       This policy set is focused on the components that install to the Advanced Cluster Management hub.
     placement:
-      placementPath: placements/hub-placement.yaml
+      placementRulePath: placements/hub-placement.yaml
 
   - name: openshift-acm-clusters
     description: The OpenShift ACS policy set applies several policies
       that will install the OpenShift Advanced Cluster Security using best practices. 
       This policy set is focused on the components that install to every managed cluster.
     placement:
-      placementPath: placements/clusters-placement.yaml
+      placementRulePath: placements/clusters-placement.yaml
