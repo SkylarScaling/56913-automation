@@ -38,7 +38,7 @@ metadata:
   labels:
     app: "{{ app_name }}"
 spec:
-  channel: acs-install-policies/acs-install-policies-channel
+  channel: "{{ app_namespace }}/acs-install-policies-channel"
   placement:
     placementRef:
       kind: PlacementRule
