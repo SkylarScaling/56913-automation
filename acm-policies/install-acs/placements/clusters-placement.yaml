@@ -1,8 +1,8 @@
 apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
 metadata:
-  name: placement-openshift-plus-clusters
-  namespace: policies
+  name: placement-openshift-clusters
+  namespace: acs-install-policies
 spec:
   predicates:
   - requiredClusterSelector:

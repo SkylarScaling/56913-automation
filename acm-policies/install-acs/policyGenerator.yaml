@@ -3,13 +3,13 @@ kind: PolicyGenerator
 metadata:
   name: policy-openshift-acs-install
 placementBindingDefaults:
-  name: binding-policy-openshift-acm-hub
+  name: acs-install-binding
 policyDefaults:
   categories:
     - CM Configuration Management
   controls: 
     - CM-2 Baseline Configuration
-  namespace: acm-policies
+  namespace: acs-install-policies
   policySets:
     - openshift-acm-hub
   remediationAction: enforce
