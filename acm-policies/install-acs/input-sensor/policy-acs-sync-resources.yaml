@@ -32,7 +32,7 @@ metadata:
   labels:
     certificate_key_name: admission-control-cert.pem
   name: admission-control-tls
-  namespace: policies
+  namespace: acs-install-policies
 type: Opaque
 ---
 apiVersion: v1
@@ -45,7 +45,7 @@ metadata:
   labels:
     certificate_key_name: collector-cert.pem
   name: collector-tls
-  namespace: policies
+  namespace: acs-install-policies
 type: Opaque
 ---
 apiVersion: v1
@@ -59,7 +59,7 @@ metadata:
   labels:
     certificate_key_name: sensor-cert.pem
   name: sensor-tls
-  namespace: policies
+  namespace: acs-install-policies
 type: Opaque
 ---
 apiVersion: console.openshift.io/v1
