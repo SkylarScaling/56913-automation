@@ -34,6 +34,17 @@ metadata:
   name: stackrox-central-services
 spec:
   central:
+    db:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+      tolerations:
+        - key: node-role.kubernetes.io/infra
+          operator: exists
+          effect: NoSchedule
+      isEnabled: Default
+      persistence:
+        persistentVolumeClaim:
+          claimName: central-db
     exposure:
       loadBalancer:
         enabled: false
@@ -45,10 +56,29 @@ spec:
     persistence:
       persistentVolumeClaim:
         claimName: stackrox-db
+    nodeSelector:
+      node-role.kubernetes.io/infra: ""
+    tolerations:
+      - key: node-role.kubernetes.io/infra
+        operator: exists
+        effect: NoSchedule
   egress:
     connectivityPolicy: Online
   scanner:
+    db:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+      tolerations:
+        - key: node-role.kubernetes.io/infra
+          operator: exists
+          effect: NoSchedule
     analyzer:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+      tolerations:
+        - key: node-role.kubernetes.io/infra
+          operator: exists
+          effect: NoSchedule
       scaling:
         autoScaling: Enabled
         maxReplicas: 5
