@@ -1,5 +1,5 @@
 ---
-- name: Install ACS via ACM Policy
+- name: Install ACM
   gather_facts: false
   hosts: localhost
   vars_prompt:
@@ -22,16 +22,8 @@
     - name: "OpenShift CLI login"
       shell: "oc login -u {{ cluster_admin_user }} -p {{ cluster_admin_password }} https://api.{{ ocp_cluster_address }}:6443 --insecure-skip-tls-verify"
 
-    - name: Get API tokenfile
-      include_vars: "{{ acm_service_account_tokenfile }}"
-
     - include_role:
-        name: admin_create_service_account
-      vars:
-        cluster_address: "{{ ocp_cluster_address }}"
-
-    - include_role:
-        name: install_acs_from_subscription
+        name: install_acm
       vars:
         cluster_address: "{{ ocp_cluster_address }}"
 ...
