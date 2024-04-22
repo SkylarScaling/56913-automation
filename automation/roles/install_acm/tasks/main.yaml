@@ -93,5 +93,5 @@
       reason: ComponentsAvailable
       type: Complete
     wait_sleep: 15
-    wait_timeout: 900
+    wait_timeout: 1200
 ...
