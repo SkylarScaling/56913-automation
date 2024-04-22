@@ -61,6 +61,7 @@ The utilites in the list below are also required, but can be installed automatic
 - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) Installed
 - [OpenShift Installer CLI](https://cloud.redhat.com/openshift/install/aws/installer-provisioned) Installed
 - [Python Modules](https://docs.python.org/3/installing/index.html):
+    - [setuptools](https://pypi.org/project/setuptools/)
     - [kubernetes](https://pypi.org/project/kubernetes/)
     - [openshift](https://pypi.org/project/openshift/)
     - [boto3](https://pypi.org/project/boto3/)
