@@ -58,8 +58,6 @@ Any commands provided are for linux systems.
 The utilites in the list below are also required, but can be installed automatically by executing the Ansible playbook listed below, once Ansible is installed.
 
 - [OpenShift CLI](https://docs.openshift.com/container-platform/4.7/cli_reference/openshift_cli/getting-started-cli.html) Installed
-- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) Installed
-- [OpenShift Installer CLI](https://cloud.redhat.com/openshift/install/aws/installer-provisioned) Installed
 - [Python Modules](https://docs.python.org/3/installing/index.html):
     - [setuptools](https://pypi.org/project/setuptools/)
     - [kubernetes](https://pypi.org/project/kubernetes/)

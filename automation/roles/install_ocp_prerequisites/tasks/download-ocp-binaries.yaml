@@ -6,21 +6,11 @@
 
 - name: Removing existing binaries to force update
   block:
-    - name: Removing openshift_install
-      ansible.builtin.file:
-        path: "(( openshift_install }}"
-        state: absent
-
     - name: Removing oc
       ansible.builtin.file:
         path: "{{ oc }}"
         state: absent
   when: force_update|bool
-
-- name: Check if OpenShift installer is already installed
-  stat:
-    path: "{{ openshift_install }}"
-  register: openshift_install_stat
 
 - name: Check if oc binary is already installed
   stat:
@@ -38,10 +28,9 @@
         exclude:
           - README.md
       loop:
-        - "{{ openshift_install_url }}"
         - "{{ openshift_cli_url }}"
 
-    - name: Copy OpenShift installer and CLI
+    - name: Copy OpenShift CLI
       file:
         path: "{{ bin_dir }}/{{ item }}"
         mode: "+x"
@@ -49,6 +38,5 @@
       loop:
         - oc
         - kubectl
-        - openshift-install
-  when: not openshift_install_stat.stat.exists or not oc_binary_stat.stat.exists
+  when: not oc_binary_stat.stat.exists
 ...
