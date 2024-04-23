@@ -76,7 +76,7 @@ $ ansible-playbook install-ocp-prerequisites.yaml --ask-become-pass
 >
 > `--ask-become-pass` This will prompt for your root password, so required python libraries can be installed.
 
-You can force the OpenShift binaries to update (if you already have oc and openshift-install on your system), by using the following command:
+You can force the OpenShift binaries to update (if you already have oc on your system), by using the following command:
 ```
 $ ansible-playbook install-ocp-prerequisites.yaml --ask-become-pass -e force_update=true
 ```
