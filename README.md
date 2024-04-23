@@ -85,4 +85,4 @@ $ ansible-playbook install-ocp-prerequisites.yaml --ask-become-pass -e force_upd
 >
 > *Arguments*
 >
-> `force_update` This will tell Ansible to delete the existing oc and openshift-install binaries, forcing new versions to be installed.
+> `force_update` This will tell Ansible to delete the existing oc binaries, forcing new versions to be installed.
