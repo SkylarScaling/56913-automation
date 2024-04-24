@@ -46,7 +46,6 @@
         name: advanced-cluster-management
         source: redhat-operators
         sourceNamespace: openshift-marketplace
-        startingCSV: advanced-cluster-management.v2.10.1
         config:
           nodeSelector:
             node-role.kubernetes.io/infra: ""
@@ -66,6 +65,20 @@
       reason: MinimumReplicasAvailable
       type: Available
     wait_sleep: 1
+
+- name: Update ACM Subscription for Manual update approval
+  kubernetes.core.k8s:
+    host: "https://api.{{ cluster_address }}:6443"
+    validate_certs: no
+    state: "{{ state }}"
+    api_version: operators.coreos.com/v1alpha1
+    definition:
+      kind: Subscription
+      metadata:
+        name: advanced-cluster-management
+        namespace: open-cluster-management
+      spec:
+        installPlanApproval: Manual
 
 - name: Create MultiClusterHub
   kubernetes.core.k8s:

@@ -27,9 +27,6 @@
       vars:
         cluster_address: "{{ ocp_cluster_address }}"
 
-    - name: Get API tokenfile
-      include_vars: "{{ acm_service_account_tokenfile }}"
-
     - include_role:
         name: admin_create_service_account
       vars:
