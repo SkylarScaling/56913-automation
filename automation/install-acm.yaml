@@ -16,7 +16,7 @@
     # Prompt for cluster-admin password
     - name: cluster_admin_password
       prompt: Enter cluster-admin password
-      private: no
+      private: yes
       confirm: no
   tasks:
     - name: "OpenShift CLI login"
