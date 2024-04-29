@@ -119,7 +119,19 @@ policies:
     - openshift-acm-clusters
   remediationAction: inform
 # ACS Policies - end
-  
+# Compliance Operator Policies - start
+- name: policy-compliance-operator-install
+  categories:
+    - CA Security Assessment and Authorization
+  controls:
+    - CA-2 Security Assessments
+    - CA-7 Continuous Monitoring
+  manifests:
+    - path: compliance-operator/policy-compliance-operator-install.yaml
+  policySets:
+    - openshift-acm-clusters
+    - openshift-acm-hub
+# Compliance Operator Policies - end
 policySets:
   - name: openshift-acm-hub
     description: The OpenShift ACS policy set applies several policies
