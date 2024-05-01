@@ -25,6 +25,17 @@ metadata:
 spec:
   type: Git
   pathname: https://github.com/skylarscaling/56913-automation.git
+  secretRef:
+    name: acm-acs-policy-git-secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: acm-acs-policy-git-secret
+  namespace: "{{ app_namespace }}"
+data:
+  user: cmVwbGFjZQo=
+  accessToken: cmVwbGFjZQo=
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
