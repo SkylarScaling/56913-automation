@@ -1,0 +1,26 @@
+---
+- name: Create temporary directory for template files
+  tempfile:
+    state: directory
+    suffix: tmp
+  register: tmp_dir
+
+- set_fact:
+    working_dir: "{{ tmp_dir.path }}"
+
+- name: Populate Templates
+  template:
+    src: "{{ role_path }}/templates/acm-cluster-role-binding.yaml.j2"
+    dest: "{{ working_dir }}/acm-cluster-role-binding-{{ acm_crb_user}}.yaml"
+  loop: "{{ user_list }}"
+
+- name: Apply Templates
+  k8s:
+    host: "https://api.{{ cluster_address }}:6443"
+    validate_certs: no
+    src: "{{ item }}"
+    state: "{{ state }}"
+    api_version: v1
+  with_fileglob:
+    - "{{ working_dir }}/*.yaml"
+...
