@@ -1,0 +1,84 @@
+---
+- name: "OpenShift CLI login"
+  shell: "oc login -u {{ hub_username }} -p {{ hub_password }} https://api.{{ hub_address }}:6443 --insecure-skip-tls-verify"
+
+- name: Create namespace for managed cluster
+  kubernetes.core.k8s:
+    host: "https://api.{{ hub_address }}:6443"
+    validate_certs: no
+    state: "{{ state }}"
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ cluster_name }}"
+
+- name: Create ManagedCluster custom resource
+  kubernetes.core.k8s:
+    host: "https://api.{{ hub_address }}:6443"
+    validate_certs: no
+    state: "{{ state }}"
+    definition:
+      apiVersion: cluster.open-cluster-management.io/v1
+      kind: ManagedCluster
+      metadata:
+        name: "{{ cluster_name }}"
+        labels:
+          cloud: auto-detect
+          vendor: auto-detect
+      spec:
+        hubAcceptsClient: true
+
+- name: Create Auto Import Secret
+  kubernetes.core.k8s:
+    host: "https://api.{{ hub_address }}:6443"
+    validate_certs: no
+    state: "{{ state }}"
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: auto-import-secret
+        namespace: "{{ cluster_name }}"
+      stringData:
+        autoImportRetry: "5"
+        # If you are using the kubeconfig file, add the following value for the kubeconfig file
+        # that has the current context set to the cluster to import:
+        kubeconfig: "{{ lookup('file','{{ kubeconfig_file}}') }}"
+      type: Opaque
+
+- name: Create KlusterletAddonConfig custom resource
+  kubernetes.core.k8s:
+    host: "https://api.{{ hub_address }}:6443"
+    validate_certs: no
+    state: "{{ state }}"
+    definition:
+      apiVersion: agent.open-cluster-management.io/v1
+      kind: KlusterletAddonConfig
+      metadata:
+        name: "{{ cluster_name }}"
+        namespace: "{{ cluster_name }}"
+      spec:
+        applicationManager:
+          enabled: true
+        certPolicyController:
+          enabled: true
+        iamPolicyController:
+          enabled: true
+        policyController:
+          enabled: true
+        searchCollector:
+          enabled: true
+
+- name: Wait for ManagedCluster to become available
+  kubernetes.core.k8s_info:
+    host: "https://api.{{ hub_address }}:6443"
+    validate_certs: no
+    kind: ManagedCluster
+    name: "{{ cluster_name }}"
+    wait: true
+    wait_condition:
+      reason: ManagedClusterAvailable
+      type: ManagedClusterConditionAvailable
+    wait_sleep: 1
+...
