@@ -8,15 +8,15 @@
 - set_fact:
     working_dir: "{{ tmp_dir.path }}"
 
-- include_vars: "{{ role_path }}/files/auth-targets.yaml"
+- include_vars: "{{ role_path }}/files/acm-admin-auth-targets.yaml"
 
-- name: Populate Templates
+- name: Populate ACM Admin Templates
   template:
     src: "{{ role_path }}/templates/acm-admin-role-bindings.yaml.j2"
     dest: "{{ working_dir }}/acm-admin-role-bindings-{{ item.auth_target }}.yaml"
   loop: "{{ auth_target_list }}"
 
-- name: Apply Templates
+- name: Apply ACM Admin Templates
   k8s:
     host: "https://api.{{ cluster_address }}:6443"
     validate_certs: no

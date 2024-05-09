@@ -18,10 +18,10 @@ roleRef:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: open-cluster-management:subscription-admin
+  name: "{{ item.auth_target }}-acm-subscription-admin"
 subjects:
   - kind: "{{ item.auth_type }}"
-    name: {{ item.auth_target }}
+    name: "{{ item.auth_target }}"
 {% if item.sa_namespace is defined %}
     namespace: "{{ item.sa_namespace }}"
 {% endif %}
