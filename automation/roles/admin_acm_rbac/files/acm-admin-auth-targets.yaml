@@ -1,5 +1,5 @@
 auth_target_list:
-  - auth_target: test-user
+  - auth_target: user1
     auth_type: User
   - auth_target: test-group
     auth_type: Group
