@@ -1,0 +1,8 @@
+auth_target_list:
+  - auth_target: test-user
+    auth_type: User
+  - auth_target: test-group
+    auth_type: Group
+  - auth_target: test-serviceaccount
+    auth_type: ServiceAccount
+    sa_namespace: default

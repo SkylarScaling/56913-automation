@@ -8,18 +8,19 @@
 - set_fact:
     working_dir: "{{ tmp_dir.path }}"
 
+- include_vars: "{{ role_path }}/files/auth-targets.yaml"
+
 - name: Populate Templates
   template:
-    src: "{{ role_path }}/templates/acm-cluster-role-binding.yaml.j2"
-    dest: "{{ working_dir }}/acm-cluster-role-binding-{{ acm_crb_user}}.yaml"
-  loop: "{{ user_list }}"
+    src: "{{ role_path }}/templates/acm-admin-role-bindings.yaml.j2"
+    dest: "{{ working_dir }}/acm-admin-role-bindings-{{ item.auth_target }}.yaml"
+  loop: "{{ auth_target_list }}"
 
 - name: Apply Templates
   k8s:
     host: "https://api.{{ cluster_address }}:6443"
     validate_certs: no
     src: "{{ item }}"
-    state: "{{ state }}"
     api_version: v1
   with_fileglob:
     - "{{ working_dir }}/*.yaml"
