@@ -19,12 +19,6 @@
 #      private: yes
 #      confirm: no
   tasks:
-    - name: TODO REMOVE temp for testing
-      set_fact:
-        ocp_cluster_address: acm-hub.sandbox3005.opentlc.com
-        cluster_admin_user: kubeadmin
-        cluster_admin_password: cIYBh-aTR5M-KQI4Z-EW5q4
-
     - name: "OpenShift CLI login"
       shell: "oc login -u {{ cluster_admin_user }} -p {{ cluster_admin_password }} https://api.{{ ocp_cluster_address }}:6443 --insecure-skip-tls-verify"
 
