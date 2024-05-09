@@ -4,17 +4,17 @@
   hosts: localhost
 #  vars_prompt:
 #    # Prompt for hub cluster address
-#    - name: hub_cluster_address
+#    - name: ocp_cluster_address
 #      prompt: Enter ACM Hub Cluster Address
 #      private: no
 #      confirm: no
 #    # Prompt for hub cluster-admin username
-#    - name: hub_cluster_admin_user
+#    - name: cluster_admin_user
 #      prompt: Enter ACM Hub cluster-admin user
 #      private: no
 #      confirm: no
 #    # Prompt for hub cluster-admin password
-#    - name: hub_cluster_admin_password
+#    - name: cluster_admin_password
 #      prompt: Enter ACM Hub cluster-admin password
 #      private: yes
 #      confirm: no
@@ -67,9 +67,9 @@
       vars:
         cluster_name: "{{ managed_cluster_name }}"
         base_domain: "{{ managed_cluster_base_domain }}"
-        hub_address: "{{ hub_cluster_address }}"
-        hub_username: "{{ hub_cluster_admin_user }}"
-        hub_password: "{{ hub_cluster_admin_password }}"
+        hub_address: "{{ ocp_cluster_address }}"
+        hub_username: "{{ cluster_admin_user }}"
+        hub_password: "{{ cluster_admin_password }}"
         managed_cluster_username: kubeadmin
         managed_cluster_password: "{{ kubeadmin_pass }}"
         kubeconfig_file: "{{ kubeconfig }}"

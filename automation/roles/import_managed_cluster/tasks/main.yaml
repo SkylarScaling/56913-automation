@@ -1,5 +1,5 @@
 ---
-- name: "OpenShift CLI login"
+- name: "OpenShift Hub Cluster CLI login"
   shell: "oc login -u {{ hub_username }} -p {{ hub_password }} https://api.{{ hub_address }}:6443 --insecure-skip-tls-verify"
 
 - name: Create namespace for managed cluster
