@@ -1,10 +1,16 @@
 ---
-- name: "OpenShift Hub Cluster CLI login"
-  shell: "oc login -u {{ hub_username }} -p {{ hub_password }} https://api.{{ hub_address }}:6443 --insecure-skip-tls-verify"
+- include_role:
+    name: admin_get_service_account_token
+  vars:
+    cluster_address: "{{ hub_address }}"
+
+- name: Get API tokenfile
+  include_vars: "{{ acm_service_account_tokenfile }}"
 
 - name: Create namespace for managed cluster
   kubernetes.core.k8s:
     host: "https://api.{{ hub_address }}:6443"
+    api_key: "{{ vars[acm_token_var] }}"
     validate_certs: no
     state: "{{ state }}"
     definition:
@@ -16,6 +22,7 @@
 - name: Create ManagedCluster custom resource
   kubernetes.core.k8s:
     host: "https://api.{{ hub_address }}:6443"
+    api_key: "{{ vars[acm_token_var] }}"
     validate_certs: no
     state: "{{ state }}"
     definition:
@@ -32,6 +39,7 @@
 - name: Create Auto Import Secret
   kubernetes.core.k8s:
     host: "https://api.{{ hub_address }}:6443"
+    api_key: "{{ vars[acm_token_var] }}"
     validate_certs: no
     state: "{{ state }}"
     definition:
@@ -42,14 +50,33 @@
         namespace: "{{ cluster_name }}"
       stringData:
         autoImportRetry: "5"
-        # If you are using the kubeconfig file, add the following value for the kubeconfig file
-        # that has the current context set to the cluster to import:
-        kubeconfig: "{{ lookup('file','{{ kubeconfig_file}}') }}"
+        token: "{{ managed_cluster_token }}"
+        server: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
       type: Opaque
+
+#  oc get secret <cluster_name>-import -n <cluster_name> -o jsonpath={.data.crds\\.yaml} | base64 --decode > klusterlet-crd.yaml
+#  oc get secret <cluster_name>-import -n <cluster_name> -o jsonpath={.data.import\\.yaml} | base64 --decode > import.yaml
+
+- name: Get Cluster Import Secret
+  kubernetes.core.k8s_info:
+    host: "https://api.{{ hub_address }}:6443"
+    api_key: "{{ vars[acm_token_var] }}"
+    api_version: v1
+    kind: Secret
+    name: "{{ cluster_name }}-import"
+    namespace: "{{ cluster_name }}"
+  register: import_secret
+
+- debug:
+    msg: "{{ import_secret.data.crds }}"
+
+- debug:
+    msg: "{{ import_secret.data.import }}"
 
 - name: Create KlusterletAddonConfig custom resource
   kubernetes.core.k8s:
     host: "https://api.{{ hub_address }}:6443"
+    api_key: "{{ vars[acm_token_var] }}"
     validate_certs: no
     state: "{{ state }}"
     definition:
@@ -73,6 +100,7 @@
 - name: Wait for ManagedCluster to become available
   kubernetes.core.k8s_info:
     host: "https://api.{{ hub_address }}:6443"
+    api_key: "{{ vars[acm_token_var] }}"
     validate_certs: no
     kind: ManagedCluster
     name: "{{ cluster_name }}"

@@ -1,4 +1,7 @@
 ---
-acm_service_account_tokenfile: "~/.acm-token"
+state: present
+acm_service_account_tokenfile: "~/.{{ cluster_address }}-token"
 acm_token_var: "acm_api_token"
+acm_service_account_name: acm-ansible-playbook-service-account
+acm_service_account_namespace: acm-ansible-playbook-access
 ...

@@ -1,4 +1,7 @@
 ---
+- name: Get API tokenfile
+  include_vars: "{{ acm_service_account_tokenfile }}"
+
 - name: Create temporary directory for template files
   tempfile:
     state: directory
@@ -19,6 +22,7 @@
 - name: Apply ACM Admin Templates
   k8s:
     host: "https://api.{{ cluster_address }}:6443"
+    api_key: "{{ vars[acm_token_var] }}"
     validate_certs: no
     src: "{{ item }}"
     api_version: v1
