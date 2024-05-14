@@ -1,4 +1,7 @@
 ---
+- name: "OpenShift CLI login"
+  shell: "oc login -u {{ admin_user }} -p {{ admin_password }} https://api.{{ cluster_address }}:6443 --insecure-skip-tls-verify"
+
 - name: Create ansible-playbook-access Namespace
   k8s:
     host: "https://api.{{ cluster_address }}:6443"
@@ -8,7 +11,7 @@
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: "{{ acm_service_account_namespace }}"
+        name: "{{ cluster_admin_service_account_namespace }}"
 
 - name: Create ServiceAccount
   k8s:
@@ -19,8 +22,8 @@
       apiVersion: v1
       kind: ServiceAccount
       metadata:
-        name: "{{ acm_service_account_name }}"
-        namespace: "{{ acm_service_account_namespace }}"
+        name: "{{ cluster_admin_service_account_name }}"
+        namespace: "{{ cluster_admin_service_account_namespace }}"
 
 - name: Create temporary directory for template files
   tempfile:
@@ -53,39 +56,14 @@
     host: "https://api.{{ cluster_address }}:6443"
     validate_certs: no
     kind: Secret
-    namespace: "{{ acm_service_account_namespace }}"
+    namespace: "{{ cluster_admin_service_account_namespace }}"
   register: sa_secrets
-  when: state == "present"
 
 - name: Get Service Account token
   set_fact:
     sa_token: "{{ item.data.token | b64decode }}"
   with_items: "{{ sa_secrets.resources }}"
-  when: (state == "present") and
-        (item.metadata.name.startswith(acm_service_account_name + "-token-"))
+  when: (item.metadata.name.startswith(cluster_admin_service_account_name + "-token-"))
   loop_control:
     label: "{{ item.metadata.name }}"
-
-#- name: Encrypt token
-#  command: ansible-vault encrypt_string --vault-password-file ~/.passfile '{{ sa_token }}' --name '{{ acm_token_var }}'
-#  register: encrypted_var
-#  when: state == "present"
-
-#- name: Create encrypted token file
-#  copy:
-#    dest: "{{ acm_service_account_tokenfile }}"
-#    content: "{{ encrypted_var.stdout }}"
-#  when: state == "present"
-
-- name: Create token file
-  copy:
-    dest: "{{ acm_service_account_tokenfile }}"
-    content: "{{ acm_token_var }}: {{ sa_token }}"
-  when: state == "present"
-
-- name: Remove token file
-  file:
-    path: "{{ acm_service_account_tokenfile }}"
-    state: absent
-  when: state == "absent"
 ...

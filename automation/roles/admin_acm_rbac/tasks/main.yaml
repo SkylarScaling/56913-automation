@@ -1,4 +1,10 @@
 ---
+- include_role:
+    name: admin_get_service_account_token
+  vars:
+    service_account_name: "{{ acm_service_account_name }}"
+    service_account_namespace: "{{ acm_service_account_namespace }}"
+
 - name: Create temporary directory for template files
   tempfile:
     state: directory
@@ -19,6 +25,7 @@
 - name: Apply ACM Admin Templates
   k8s:
     host: "https://api.{{ cluster_address }}:6443"
+    api_key: "{{ sa_token }}"
     validate_certs: no
     src: "{{ item }}"
     api_version: v1
