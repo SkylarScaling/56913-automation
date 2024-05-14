@@ -55,7 +55,6 @@
     host: "https://api.{{ hub_address }}:6443"
     api_key: "{{ hub_cluster_token }}"
     validate_certs: no
-    state: "{{ state }}"
     definition:
       apiVersion: v1
       kind: Secret
@@ -67,6 +66,29 @@
         token: "{{ managed_cluster_token }}"
         server: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
       type: Opaque
+
+- name: Create KlusterletAddonConfig custom resource
+  kubernetes.core.k8s:
+    host: "https://api.{{ hub_address }}:6443"
+    api_key: "{{ hub_cluster_token }}"
+    validate_certs: no
+    definition:
+      apiVersion: agent.open-cluster-management.io/v1
+      kind: KlusterletAddonConfig
+      metadata:
+        name: "{{ cluster_name }}"
+        namespace: "{{ cluster_name }}"
+      spec:
+        applicationManager:
+          enabled: true
+        certPolicyController:
+          enabled: true
+        iamPolicyController:
+          enabled: true
+        policyController:
+          enabled: true
+        searchCollector:
+          enabled: true
 
 - name: Wait for ManagedCluster to become available
   kubernetes.core.k8s_info:
