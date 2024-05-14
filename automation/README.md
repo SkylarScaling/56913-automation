@@ -7,7 +7,7 @@ This includes:
 
 Example:
 ```
-ansible-playbook install-infra.yaml --vault-password-file=~/.passfile
+ansible-playbook install-infra.yaml
 ```
 
 # Install ACM
@@ -15,7 +15,7 @@ ansible-playbook install-infra.yaml --vault-password-file=~/.passfile
 
 Example:
 ```
-ansible-playbook install-acm.yaml --vault-password-file=~/.passfile
+ansible-playbook install-acm.yaml
 ```
 
 # Install ACS via ACM Subscription
@@ -23,5 +23,13 @@ ansible-playbook install-acm.yaml --vault-password-file=~/.passfile
 
 Example:
 ```
-ansible-playbook install-acs-via-acm-policy.yaml --vault-password-file=~/.passfile
+ansible-playbook install-acs-via-acm-policy.yaml
+```
+
+# Import Managed Cluster
+`import-managed-cluster` imports a target cluster as a Managed Cluster to the specified ACM Hub cluster.
+
+Example:
+```
+ansible-playbook import-managed-cluster.yaml
 ```
