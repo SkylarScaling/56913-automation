@@ -1,6 +1,9 @@
 ---
-- name: Get API tokenfile
-  include_vars: "{{ acm_service_account_tokenfile }}"
+- include_role:
+    name: admin_get_service_account_token
+  vars:
+    service_account_name: "{{ acm_service_account_name }}"
+    service_account_namespace: "{{ acm_service_account_namespace }}"
 
 - name: Create temporary directory for template files
   tempfile:
@@ -20,7 +23,7 @@
   k8s:
     host: "https://api.{{ cluster_address }}:6443"
     validate_certs: no
-    api_key: "{{ vars[acm_token_var] }}"
+    api_key: "{{ sa_token }}"
     state: "{{ state }}"
     definition:
       apiVersion: v1
@@ -32,7 +35,7 @@
   k8s:
     host: "https://api.{{ cluster_address }}:6443"
     validate_certs: no
-    api_key: "{{ vars[acm_token_var] }}"
+    api_key: "{{ sa_token }}"
     src: "{{ working_dir }}/subscription.yaml"
     state: "{{ state }}"
 ...

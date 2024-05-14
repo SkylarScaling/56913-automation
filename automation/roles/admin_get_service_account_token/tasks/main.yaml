@@ -7,22 +7,14 @@
     host: "https://api.{{ cluster_address }}:6443"
     validate_certs: no
     kind: Secret
-    namespace: "{{ acm_service_account_namespace }}"
+    namespace: "{{ service_account_namespace }}"
   register: sa_secrets
-  when: state == "present"
 
 - name: Get Service Account token
   set_fact:
     sa_token: "{{ item.data.token | b64decode }}"
   with_items: "{{ sa_secrets.resources }}"
-  when: (state == "present") and
-    (item.metadata.name.startswith(acm_service_account_name + "-token-"))
+  when: item.metadata.name.startswith(service_account_name + "-token-")
   loop_control:
     label: "{{ item.metadata.name }}"
-
-- name: Create token file
-  copy:
-    dest: "{{ acm_service_account_tokenfile }}"
-    content: "{{ acm_token_var }}: {{ sa_token }}"
-  when: state == "present"
 ...
