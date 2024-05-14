@@ -68,49 +68,6 @@
         server: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
       type: Opaque
 
-#  oc get secret <cluster_name>-import -n <cluster_name> -o jsonpath={.data.crds\\.yaml} | base64 --decode > klusterlet-crd.yaml
-#  oc get secret <cluster_name>-import -n <cluster_name> -o jsonpath={.data.import\\.yaml} | base64 --decode > import.yaml
-
-#- name: Get Cluster Import Secret
-#  kubernetes.core.k8s_info:
-#    host: "https://api.{{ hub_address }}:6443"
-#    api_key: "{{ vars[sa_token_var] }}"
-#    api_version: v1
-#    kind: Secret
-#    name: "{{ cluster_name }}-import"
-#    namespace: "{{ cluster_name }}"
-#  register: import_secret
-#
-#- debug:
-#    msg: "{{ import_secret.data.crds }}"
-#
-#- debug:
-#    msg: "{{ import_secret.data.import }}"
-#
-#- name: Create KlusterletAddonConfig custom resource
-#  kubernetes.core.k8s:
-#    host: "https://api.{{ hub_address }}:6443"
-#    api_key: "{{ vars[sa_token_var] }}"
-#    validate_certs: no
-#    state: "{{ state }}"
-#    definition:
-#      apiVersion: agent.open-cluster-management.io/v1
-#      kind: KlusterletAddonConfig
-#      metadata:
-#        name: "{{ cluster_name }}"
-#        namespace: "{{ cluster_name }}"
-#      spec:
-#        applicationManager:
-#          enabled: true
-#        certPolicyController:
-#          enabled: true
-#        iamPolicyController:
-#          enabled: true
-#        policyController:
-#          enabled: true
-#        searchCollector:
-#          enabled: true
-
 - name: Wait for ManagedCluster to become available
   kubernetes.core.k8s_info:
     host: "https://api.{{ hub_address }}:6443"
