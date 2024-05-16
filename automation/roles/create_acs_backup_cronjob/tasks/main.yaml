@@ -1,0 +1,76 @@
+---
+- include_role:
+    name: admin_get_service_account_token
+  vars:
+    service_account_name: "{{ cluster_admin_service_account_name }}"
+    service_account_namespace: "{{ cluster_admin_service_account_namespace }}"
+
+- set_fact:
+    acs_central_endpoint: "https://central-stackrox.apps.{{ cluster_address }}"
+
+- name: Create PV for ACS Backups
+  k8s:
+    host: "https://api.{{ cluster_address }}:6443"
+    api_key: "{{ sa_token }}"
+    validate_certs: no
+    definition:
+      apiVersion: v1
+      kind: PersistentVolume
+      metadata:
+        name: stackrox-backups
+      spec:
+        capacity:
+          storage: 5Gi
+        accessModes:
+          - ReadWriteOnce
+        persistentVolumeReclaimPolicy: Retain
+        #storageClassName: gp3-csi   # Comment out to use default StorageClass
+        nfs:
+          path: /tmp
+          server: 172.17.0.2
+
+- name: Create PVC for ACS Backups
+  k8s:
+    host: "https://api.{{ cluster_address }}:6443"
+    api_key: "{{ sa_token }}"
+    validate_certs: no
+    definition:
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: stackrox-backups
+        namespace: stackrox
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        volumeMode: Filesystem
+        resources:
+          requests:
+            storage: 5Gi
+
+- name: Create temporary directory for template files
+  tempfile:
+    state: directory
+    suffix: tmp
+  register: tmp_dir
+
+- set_fact:
+    working_dir: "{{ tmp_dir.path }}"
+
+- name: Populate Templates
+  template:
+    src: "{{ item }}"
+    dest: "{{ working_dir }}/{{ item | basename | regex_replace('\\.j2$', '') }}"
+  with_fileglob:
+    - ./templates/*.j2
+
+- name: Apply Templates
+  k8s:
+    host: "https://api.{{ cluster_address }}:6443"
+    api_key: "{{ sa_token }}"
+    validate_certs: no
+    src: "{{ item }}"
+    state: "{{ state }}"
+    api_version: v1
+  with_fileglob:
+    - "{{ working_dir }}/*.yaml"
