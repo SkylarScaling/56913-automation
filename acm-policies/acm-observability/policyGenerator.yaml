@@ -4,7 +4,7 @@ kind: PolicyGenerator
 metadata:
   name: gen-policy-generator-observe
 policyDefaults:
-  namespace: acm-observability-policies
+  namespace: acm-install-policies
   remediationAction: enforce
   consolidateManifests: false
   policySets:

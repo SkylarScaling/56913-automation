@@ -39,13 +39,13 @@ A subscription to this repo might look like this:
     apiVersion: v1
     kind: Namespace
     metadata:
-      name: acs-install-policies
+      name: acm-install-policies
     ---
     apiVersion: app.k8s.io/v1beta1
     kind: Application
     metadata:
-      name: acs-install-policies
-      namespace: acs-install-policies
+      name: acm-install-policies
+      namespace: acm-install-policies
     spec:
       componentKinds:
         - group: apps.open-cluster-management.io
@@ -55,15 +55,15 @@ A subscription to this repo might look like this:
           - key: app
             operator: In
             values:
-              - acs-install-policies
+              - acm-install-policies
     ---
     apiVersion: apps.open-cluster-management.io/v1
     kind: Channel
     metadata:
       annotations:
         apps.open-cluster-management.io/reconcile-rate: medium
-      name: acs-install-policies-channel
-      namespace: acs-install-policies
+      name: acm-install-policies-channel
+      namespace: acm-install-policies
     spec:
       type: Git
       pathname: https://github.com/skylarscaling/56913-automation.git
@@ -76,23 +76,23 @@ A subscription to this repo might look like this:
         apps.open-cluster-management.io/git-path: acm-policies/install-acs
         apps.open-cluster-management.io/reconcile-option: replace
       labels:
-        app: acs-install-policies
-      name: acs-install-policies-subscription
-      namespace: acs-install-policies
+        app: acm-install-policies
+      name: acm-install-policies-subscription
+      namespace: acm-install-policies
     spec:
-      channel: acs-install-policies/acs-install-policies-channel
+      channel: acm-install-policies/acm-install-policies-channel
       placement:
         placementRef:
           kind: PlacementRule
-          name: acs-install-policies-placement
+          name: acm-install-policies-placement
     ---
     apiVersion: apps.open-cluster-management.io/v1
     kind: PlacementRule
     metadata:
       labels:
-        app: acs-install-policies
-      name: acs-install-policies-placement
-      namespace: acs-install-policies
+        app: acm-install-policies
+      name: acm-install-policies-placement
+      namespace: acm-install-policies
     spec:
       clusterSelector:
         matchLabels:
