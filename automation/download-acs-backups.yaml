@@ -1,0 +1,68 @@
+---
+- name: Download ACS Backups
+  gather_facts: false
+  hosts: localhost
+  #  vars_prompt:
+  #    # Prompt for cluster name
+  #    - name: ocp_cluster_address
+  #      prompt: Enter OCP Hub Cluster Address (e.g. clustername.domain.com)
+  #      private: no
+  #      confirm: no
+  #    # Prompt for cluster-admin username
+  #    - name: cluster_admin_user
+  #      prompt: Enter cluster-admin user
+  #      private: no
+  #      confirm: no
+  #    # Prompt for cluster-admin password
+  #    - name: cluster_admin_password
+  #      prompt: Enter cluster-admin password
+  #      private: yes
+  #      confirm: no
+  #    # Prompt for local filepath
+  #    - name: local_filepath
+  #      prompt: Enter local path to save backups
+  #      private: no
+  #      confirm: no
+  tasks:
+    - name: "OpenShift CLI login"
+      command: "oc login -u {{ cluster_admin_user }} -p {{ cluster_admin_password }} https://api.{{ ocp_cluster_address }}:6443 --insecure-skip-tls-verify"
+
+    - name: Download ACS Backups
+      block:
+        - name: Change to stackrox project
+          command: oc project stackrox
+
+        - name: Create tmp-pod with PVC mount
+          command: oc run tmp-pod --image=dummy --restart=Never --overrides='{"spec":{"containers":[{"command":["tail","-f","/dev/null"],"image":"centos/httpd-24-centos7","name":"tmp-pod","volumeMounts":[{"mountPath":"/backups","name":"volume"}]}],"volumes":[{"name":"volume","persistentVolumeClaim":{"claimName":"stackrox-backups"}}]}}'
+
+        - name: Wait for pod to be Running
+          kubernetes.core.k8s_info:
+            host: "https://api.{{ ocp_cluster_address }}:6443"
+            validate_certs: no
+            kind: Pod
+            name: tmp-pod
+            wait: true
+            wait_condition:
+              reason: Ready
+              type: True
+            wait_sleep: 1
+            wait_timeout: 30
+
+        - name: Download ACS backups
+          command: "oc rsync --include='/backups/postgres_db_*' tmp-pod:/backups {{ local_filepath }}/."
+          ignore_errors: true # Ignoring file access errors we don't care about
+
+        - name: "Check downloaded files"
+          find:
+            paths: "{{ local_filepath }}/backups"
+          register: found_files
+
+        - name: "List downloaded files"
+          debug:
+            msg:
+              - "Files downloaded: "
+              - "{{ found_files['files'] | map(attribute='path') | map('regex_replace','^.*/(.*)$','\\1') | list }}"
+      always:
+        - name: Delete tmp-pod
+          command: oc delete pod tmp-pod
+...
