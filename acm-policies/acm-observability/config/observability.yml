@@ -4,6 +4,11 @@ kind: MultiClusterObservability
 metadata:
   name: observability
 spec:
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  tolerations:
+    - key: node-role.kubernetes.io/infra
+      effect: NoSchedule
   observabilityAddonSpec: {}
   storageConfig:
     metricObjectStorage:

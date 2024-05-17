@@ -2,7 +2,7 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: ConfigurationPolicy
 metadata:
-  name: acm-observabiltiy-status
+  name: acm-observability-status
 spec:
   remediationAction: inform
   severity: high
