@@ -20,7 +20,7 @@
         name: stackrox-backups
       spec:
         capacity:
-          storage: 1Gi
+          storage: 5Gi
         accessModes:
           - ReadWriteOnce
         persistentVolumeReclaimPolicy: Retain
@@ -46,7 +46,7 @@
         volumeMode: Filesystem
         resources:
           requests:
-            storage: 1Gi
+            storage: 5Gi
 
 - name: Create temporary directory for template files
   tempfile:
