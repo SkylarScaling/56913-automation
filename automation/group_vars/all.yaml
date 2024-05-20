@@ -1,4 +1,5 @@
 ---
+subscription_repo_url: https://github.com/skylarscaling/56913-automation.git
 subscription_branch: acm-mco
 state: present
 cluster_admin_service_account_name: ansible-playbook-service-account-cluster-admin
