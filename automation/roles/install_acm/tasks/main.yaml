@@ -92,6 +92,11 @@
         name: multiclusterhub
         namespace: open-cluster-management
       spec:
+        nodeSelector:
+          node-role.kubernetes.io/infra: ""
+        tolerations:
+          - key: node-role.kubernetes.io/infra
+            effect: NoSchedule
         availabilityConfig: High
 
 - name: Wait for ACM MultiClusterHub to become available
