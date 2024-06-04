@@ -51,11 +51,7 @@
             node-role.kubernetes.io/infra: ""
           tolerations:
             - key: node-role.kubernetes.io/infra
-              value: reserved
               effect: NoSchedule
-            - key: node-role.kubernetes.io/infra
-              value: reserved
-              effect: NoExecute
 
 - name: Wait for ACM Hub Operator Deployment to become available
   kubernetes.core.k8s_info:
@@ -100,11 +96,7 @@
           node-role.kubernetes.io/infra: ""
         tolerations:
           - key: node-role.kubernetes.io/infra
-            value: reserved
             effect: NoSchedule
-          - key: node-role.kubernetes.io/infra
-            value: reserved
-            effect: NoExecute
         availabilityConfig: High
 
 - name: Wait for ACM MultiClusterHub to become available
