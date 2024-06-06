@@ -1,5 +1,5 @@
 ---
-- name: Configure ACM RBAC
+- name: Configure ACM Hub RBAC
   gather_facts: false
   hosts: localhost
 #  vars_prompt:
@@ -23,14 +23,16 @@
         cluster_address: "{{ ocp_cluster_address }}"
 
     - include_role:
-        name: admin_get_service_account_token
+        name: admin_create_acm_service_account
       vars:
         cluster_address: "{{ ocp_cluster_address }}"
         admin_user: "{{ cluster_admin_user }}"
         admin_password: "{{ cluster_admin_password }}"
 
     - include_role:
-        name: admin_acm_rbac
+        name: admin_acm_rbac_hub
       vars:
         cluster_address: "{{ ocp_cluster_address }}"
+        admin_user: "{{ cluster_admin_user }}"
+        admin_password: "{{ cluster_admin_password }}"
 ...
