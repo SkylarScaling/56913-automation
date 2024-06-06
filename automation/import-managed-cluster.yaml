@@ -57,6 +57,7 @@
         name: admin_acm_rbac_managed_cluster
       vars:
         cluster_address: "{{ ocp_cluster_address }}"
+        cluster_name: "{{ managed_cluster_name }}"
         admin_user: "{{ cluster_admin_user }}"
         admin_password: "{{ cluster_admin_password }}"
         managed_cluster_admins: "{{ managed_cluster_admin_group }}"
