@@ -1,5 +1,5 @@
 ---
 state: present
-app_name: acs-installer
+app_name: mco-installer
 app_namespace: acm-install-policies
 ...

@@ -26,4 +26,9 @@
         name: install_acm
       vars:
         cluster_address: "{{ ocp_cluster_address }}"
+
+    - include_role:
+        name: admin_acm_rbac_hub
+      vars:
+        cluster_address: "{{ ocp_cluster_address }}"
 ...
