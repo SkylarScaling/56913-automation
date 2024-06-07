@@ -8,7 +8,7 @@ policyDefaults:
   remediationAction: enforce
   consolidateManifests: false
   policySets:
-    - quay-operator
+    - openshift-acm-hub
 placementBindingDefaults:
   name: "quay-binding"
 
@@ -20,7 +20,7 @@ policies:
     controls:
       - SI-7 Software Firmware and Information Integrity
     dependencies:
-      - name: policy-odf-status
+      - name: odf-operator-status
     manifests:
       - path: config/policy-install-quay.yaml
   - name: policy-config-quay
@@ -65,9 +65,18 @@ policies:
       - path: config/policy-quay-bridge.yaml
     orderManifests: true
     policySets:
-      - quay-operator
+      - openshift-acm-clusters
   # Quay Policies - end
-policySets:
-  - name: quay-operator
+  - name: openshift-acm-hub
+    description: The OpenShift ACS policy set applies several policies
+      that will install the OpenShift Advanced Cluster Security using best practices.
+      This policy set is focused on the components that install to the Advanced Cluster Management hub.
     placement:
       placementRulePath: placements/hub-placement.yaml
+
+  - name: openshift-acm-clusters
+    description: The OpenShift ACS policy set applies several policies
+      that will install the OpenShift Advanced Cluster Security using best practices.
+      This policy set is focused on the components that install to every managed cluster.
+    placement:
+      placementRulePath: placements/clusters-placement.yaml
