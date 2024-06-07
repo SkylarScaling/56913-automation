@@ -67,6 +67,7 @@ policies:
     policySets:
       - openshift-acm-clusters
   # Quay Policies - end
+policySets:
   - name: openshift-acm-hub
     description: The OpenShift ACS policy set applies several policies
       that will install the OpenShift Advanced Cluster Security using best practices.
