@@ -24,7 +24,7 @@ kind: Secret
 type: Opaque
 metadata:
   name: quay-integration
-  namespace: policies
+  namespace: acm-install-policies
 apiVersion: v1
 data:
   token: '{{ fromSecret "local-quay" "quay-integration" "token" }}'
@@ -39,7 +39,7 @@ spec:
  clusterID: openshift
  credentialsSecret:
    name: quay-integration
-   namespace: policies
+   namespace: acm-install-policies
  insecureRegistry: false
  quayHostname: https://{{ fromConfigMap "policies" "quay-config" "host" }}
 ---
@@ -67,5 +67,5 @@ data:
 kind: Secret
 metadata:
   name: opp-ingres-ca
-  namespace: policies
+  namespace: acm-install-policies
 type: Opaque

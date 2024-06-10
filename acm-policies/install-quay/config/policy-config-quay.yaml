@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: quay-config
-  namespace: policies
+  namespace: acm-install-policies
 data:
   host: '{{ (lookup "route.openshift.io/v1" "Route" "local-quay" "registry-quay" ).spec.host }}'
 ---
