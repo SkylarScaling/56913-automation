@@ -36,7 +36,7 @@ data:
 ---
 apiVersion: v1
 data:
-  quay-integration: '{{hub fromSecret "policies" "opp-ingres-ca" "registry-quay-local-quay" hub}}'
+  quay-integration: '{{hub fromSecret "acm-install-policies" "opp-ingres-ca" "registry-quay-local-quay" hub}}'
 kind: Secret
 metadata:
   name: opp-ingres-ca
