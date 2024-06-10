@@ -41,7 +41,7 @@ spec:
    name: quay-integration
    namespace: acm-install-policies
  insecureRegistry: false
- quayHostname: https://{{ fromConfigMap "policies" "quay-config" "host" }}
+ quayHostname: https://{{ fromConfigMap "acm-install-policies" "quay-config" "host" }}
 ---
 apiVersion: v1
 data:
