@@ -12,3 +12,8 @@ spec:
   name: odf-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+  config:
+    tolerations:
+      - key: node.ocs.openshift.io/storage
+        effect: NoSchedule
+        value: "true"
