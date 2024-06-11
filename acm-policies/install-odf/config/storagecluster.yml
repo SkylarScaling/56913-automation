@@ -8,6 +8,27 @@ metadata:
   name: ocs-storagecluster
   namespace: openshift-storage
 spec:
+  placement:
+    all:
+      tolerations:
+        - key: node.ocs.openshift.io/storage
+          effect: NoSchedule
+          value: "true"
+    mds:
+      tolerations:
+        - key: node.ocs.openshift.io/storage
+          effect: NoSchedule
+          value: "true"
+    noobaa-core:
+      tolerations:
+        - key: node.ocs.openshift.io/storage
+          effect: NoSchedule
+          value: "true"
+    rgw:
+      tolerations:
+        - key: node.ocs.openshift.io/storage
+          effect: NoSchedule
+          value: "true"
   arbiter: {}
   encryption:
     kms: {}

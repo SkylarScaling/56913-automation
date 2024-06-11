@@ -24,7 +24,7 @@ metadata:
   namespace: "{{ app_namespace }}"
 spec:
   type: Git
-  pathname: https://github.com/skylarscaling/56913-automation.git
+  pathname: "{{ subscription_repo_url }}"
 #  secretRef: # Uncomment if using private repo
 #    name: acm-acs-policy-git-secret
 #---
