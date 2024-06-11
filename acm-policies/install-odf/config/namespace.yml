@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   labels:
-    openshift.io/node-selector: 'cluster.ocs.openshift.io/openshift-storage='
     openshift.io/cluster-monitoring: "true"
+  annotations:
+    openshift.io/node-selector: 'cluster.ocs.openshift.io/openshift-storage='
   name: openshift-storage
