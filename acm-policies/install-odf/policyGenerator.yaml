@@ -32,7 +32,7 @@ policies:
     manifests:
       - path: config/console.yml
       - path: config/storagesystem.yml
-#TODO UNCOMMENT      - path: config/storagecluster.yml
+      - path: config/storagecluster.yml
 
   - name: odf-operator-status
     remediationAction: inform

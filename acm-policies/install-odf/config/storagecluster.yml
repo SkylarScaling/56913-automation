@@ -92,6 +92,6 @@ spec:
   nodeTopologies: {}
   externalStorage: {}
   flexibleScaling: true
-  multiCloudGateway:
-    dbStorageClassName: gp3-csi
-    reconcileStrategy: standalone
+#  multiCloudGateway:
+#    dbStorageClassName: gp3-csi
+#    reconcileStrategy: standalone
