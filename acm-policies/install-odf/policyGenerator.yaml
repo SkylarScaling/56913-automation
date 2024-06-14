@@ -15,6 +15,8 @@ placementBindingDefaults:
 policies:
   - name: odf-operator
     remediationAction: enforce
+    dependencies:
+      - name: lso-operator-status
     manifests:
       - path: config/namespace.yml
       - path: config/operatorgroup.yml
@@ -30,7 +32,7 @@ policies:
     manifests:
       - path: config/console.yml
       - path: config/storagesystem.yml
-      - path: config/storagecluster.yml
+#TODO UNCOMMENT      - path: config/storagecluster.yml
 
   - name: odf-operator-status
     remediationAction: inform
