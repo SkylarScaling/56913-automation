@@ -1,5 +1,5 @@
 ---
 state: present
-app_name: odf-installer
+app_name: lso-installer
 app_namespace: acm-install-policies
 ...

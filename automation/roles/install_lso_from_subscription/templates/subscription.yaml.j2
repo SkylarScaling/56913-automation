@@ -15,28 +15,12 @@ spec:
         values:
           - "{{ app_name }}"
 ---
-apiVersion: app.k8s.io/v1beta1
-kind: Application
-metadata:
-  name: lso-installer
-  namespace: "{{ app_namespace }}"
-spec:
-  componentKinds:
-    - group: apps.open-cluster-management.io
-      kind: Subscription
-  selector:
-    matchExpressions:
-      - key: app
-        operator: In
-        values:
-          - lso-installer
----
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
   annotations:
     apps.open-cluster-management.io/reconcile-rate: medium
-  name: odf-install-policies-channel
+  name: lso-install-policies-channel
   namespace: "{{ app_namespace }}"
 spec:
   type: Git
@@ -56,24 +40,6 @@ spec:
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
-  name: odf-install-policies-subscription
-  namespace: "{{ app_namespace }}"
-  annotations:
-    apps.open-cluster-management.io/git-branch: "{{ subscription_branch }}"
-    apps.open-cluster-management.io/git-path: acm-policies/install-odf
-    apps.open-cluster-management.io/reconcile-option: replace
-  labels:
-    app: "{{ app_name }}"
-spec:
-  channel: "{{ app_namespace }}/odf-install-policies-channel"
-  placement:
-    placementRef:
-      kind: PlacementRule
-      name: odf-install-policies-placement
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Subscription
-metadata:
   name: lso-install-policies-subscription
   namespace: "{{ app_namespace }}"
   annotations:
@@ -81,18 +47,18 @@ metadata:
     apps.open-cluster-management.io/git-path: acm-policies/install-local-storage
     apps.open-cluster-management.io/reconcile-option: replace
   labels:
-    app: "lso-installer"
+    app: "{{ app_name }}"
 spec:
-  channel: "{{ app_namespace }}/odf-install-policies-channel"
+  channel: "{{ app_namespace }}/lso-install-policies-channel"
   placement:
     placementRef:
       kind: PlacementRule
-      name: odf-install-policies-placement
+      name: lso-install-policies-placement
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
-  name: odf-install-policies-placement
+  name: lso-install-policies-placement
   namespace: "{{ app_namespace }}"
   labels:
     app: "{{ app_name }}"

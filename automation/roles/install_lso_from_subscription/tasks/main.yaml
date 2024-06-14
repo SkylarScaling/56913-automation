@@ -31,7 +31,7 @@
       metadata:
         name: "{{ app_namespace }}"
 
-- name: Apply ODF install module repo subscription
+- name: Apply LSO install module repo subscription
   k8s:
     host: "https://api.{{ cluster_address }}:6443"
     validate_certs: no
