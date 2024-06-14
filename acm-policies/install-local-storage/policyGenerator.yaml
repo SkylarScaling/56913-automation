@@ -20,7 +20,7 @@ policies:
       - path: config/operatorgroup.yaml
       - path: config/subscription.yaml
       - path: config/lvs-local-block.yaml
-      - path: config/lvs-auto-discover-devices.yaml
+      - path: config/lvd-auto-discover-devices.yaml
 
   - name: lso-operator-status
     remediationAction: inform
