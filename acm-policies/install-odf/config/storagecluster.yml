@@ -29,20 +29,69 @@ spec:
         - key: node.ocs.openshift.io/storage
           effect: NoSchedule
           value: "true"
-  arbiter: {}
+  storageDeviceSets:
+    - config: {}
+      count: 2
+      dataPVCTemplate:
+        metadata: {}
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 500Gi
+          storageClassName: local-block
+          volumeMode: Block
+        status: {}
+      name: ocs-deviceset-local-block
+      placement: {}
+      preparePlacement: {}
+      replica: 3
+      resources:
+        limits:
+          cpu: '2'
+          memory: 5Gi
+        requests:
+          cpu: '1'
+          memory: 5Gi
   encryption:
     kms: {}
-  externalStorage: {}
-  managedResources:
-    cephBlockPools: {}
-    cephCluster: {}
-    cephConfig: {}
-    cephDashboard: {}
-    cephFilesystems: {}
-    cephObjectStoreUsers: {}
-    cephObjectStores: {}
-    cephToolbox: {}
   mirroring: {}
-  multiCloudGateway:
-    dbStorageClassName: gp3-csi
-    reconcileStrategy: standalone
+  monDataDirHostPath: /var/lib/rook
+  resources:
+    mds:
+      limits:
+        cpu: '3'
+        memory: 8Gi
+      requests:
+        cpu: '1'
+        memory: 8Gi
+    rgw:
+      limits:
+        cpu: '2'
+        memory: 4Gi
+      requests:
+        cpu: '1'
+        memory: 4Gi
+  managedResources:
+    cephObjectStoreUsers: {}
+    cephCluster: {}
+    cephBlockPools: {}
+    cephNonResilientPools: {}
+    cephObjectStores: {}
+    cephFilesystems: {}
+    cephRBDMirror: {}
+    cephToolbox: {}
+    cephDashboard: {}
+    cephConfig: {}
+  arbiter: {}
+  network:
+    connections:
+      encryption: {}
+    multiClusterService: {}
+  nodeTopologies: {}
+  externalStorage: {}
+  flexibleScaling: true
+#  multiCloudGateway:
+#    dbStorageClassName: gp3-csi
+#    reconcileStrategy: standalone

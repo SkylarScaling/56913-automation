@@ -1,0 +1,36 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: gen-policy-generator-lso
+policyDefaults:
+  namespace: acm-install-policies
+  remediationAction: enforce
+  consolidateManifests: false
+  policySets:
+    - local-storage-operator
+placementBindingDefaults:
+  name: "lso-binding"
+
+policies:
+  - name: lso-operator
+    remediationAction: enforce
+    manifests:
+      - path: config/namespace.yaml
+      - path: config/operatorgroup.yaml
+      - path: config/subscription.yaml
+      - path: config/lvs-local-block.yaml
+      - path: config/lvd-auto-discover-devices.yaml
+
+  - name: lso-operator-status
+    remediationAction: inform
+    dependencies:
+      - name: "lso-operator"
+        compliance: "Compliant"
+    manifests:
+      - path: status/local-storage-status.yaml
+
+policySets:
+  - name: local-storage-operator
+    placement:
+      placementRulePath: placements/hub-placement.yaml
