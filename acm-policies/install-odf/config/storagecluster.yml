@@ -31,7 +31,7 @@ spec:
           value: "true"
   storageDeviceSets:
     - config: {}
-      count: 2
+      count: 1
       dataPVCTemplate:
         metadata: {}
         spec:
