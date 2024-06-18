@@ -46,7 +46,7 @@ spec:
       name: ocs-deviceset-local-block
       placement: {}
       preparePlacement: {}
-      replica: 3
+      replica: 4
       resources:
         limits:
           cpu: '2'
