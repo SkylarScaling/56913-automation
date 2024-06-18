@@ -29,6 +29,7 @@ spec:
         - key: node.ocs.openshift.io/storage
           effect: NoSchedule
           value: "true"
+  resourceProfile: balanced
   storageDeviceSets:
     - config: {}
       count: 1
@@ -47,43 +48,26 @@ spec:
       placement: {}
       preparePlacement: {}
       replica: 4
-      resources:
-        limits:
-          cpu: '2'
-          memory: 5Gi
-        requests:
-          cpu: '1'
-          memory: 5Gi
+      resources: {}
   encryption:
     kms: {}
   mirroring: {}
   monDataDirHostPath: /var/lib/rook
-  resources:
-    mds:
-      limits:
-        cpu: '3'
-        memory: 8Gi
-      requests:
-        cpu: '1'
-        memory: 8Gi
-    rgw:
-      limits:
-        cpu: '2'
-        memory: 4Gi
-      requests:
-        cpu: '1'
-        memory: 4Gi
   managedResources:
-    cephObjectStoreUsers: {}
-    cephCluster: {}
     cephBlockPools: {}
-    cephNonResilientPools: {}
-    cephObjectStores: {}
-    cephFilesystems: {}
-    cephRBDMirror: {}
-    cephToolbox: {}
-    cephDashboard: {}
+    cephCluster: {}
     cephConfig: {}
+    cephDashboard: {}
+    cephFilesystems: {}
+    cephNonResilientPools:
+      count: 1
+    cephObjectStoreUsers: {}
+    cephObjectStores: {}
+    cephRBDMirror:
+      daemonCount: 1
+    cephToolbox:
+      reconcileStrategy: init
+  enableCephTools: true
   arbiter: {}
   network:
     connections:
