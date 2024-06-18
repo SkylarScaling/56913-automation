@@ -39,7 +39,7 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: 500Gi
+              storage: "1"
           storageClassName: local-block
           volumeMode: Block
         status: {}
