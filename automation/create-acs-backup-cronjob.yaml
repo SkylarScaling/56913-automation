@@ -18,11 +18,6 @@
 #      prompt: Enter cluster-admin password
 #      private: yes
 #      confirm: no
-#    # Prompt for ACS API token
-#    - name: acs_api_token
-#      prompt: Enter ACS API token
-#      private: yes
-#      confirm: no
   tasks:
     - include_role:
         name: admin_create_cluster_admin_service_account
@@ -37,5 +32,4 @@
         cluster_address: "{{ ocp_cluster_address }}"
         admin_user: "{{ cluster_admin_user }}"
         admin_password: "{{ cluster_admin_password }}"
-        b64_acs_api_token: "{{ acs_api_token | b64encode }}"
 ...

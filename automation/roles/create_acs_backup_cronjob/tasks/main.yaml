@@ -6,7 +6,7 @@
     service_account_namespace: "{{ cluster_admin_service_account_namespace }}"
 
 - set_fact:
-    acs_central_endpoint: "https://central-stackrox.apps.{{ cluster_address }}"
+    acs_central_endpoint: "central-stackrox.apps.{{ cluster_address }}"
 
 - name: Create PV for ACS Backups
   k8s:
@@ -47,6 +47,38 @@
         resources:
           requests:
             storage: 5Gi
+
+- name: Get ACS Admin Secret
+  k8s_info:
+    host: "https://api.{{ cluster_address }}:6443"
+    api_key: "{{ sa_token }}"
+    validate_certs: no
+    kind: Secret
+    namespace: stackrox
+    name: central-htpasswd
+  register: acs_secret
+
+- name: Generate ACS API Token
+  ansible.builtin.uri:
+    url: "https://{{ acs_central_endpoint }}/v1/apitokens/generate"
+    validate_certs: no
+    method: POST
+    body_format: json
+    status_code: [ 200 ]
+    return_content: true
+    headers:
+      Content-Type: application/json
+    user: admin
+    password: "{{ acs_secret.resources[0].data.password | b64decode }}"
+    force_basic_auth: true
+    body:
+      name: "acs-backup-automation"
+      roles: ["Admin"]
+  register: api_return
+
+- name: Set ACS Token fact
+  set_fact:
+    b64_acs_api_token: "{{ api_return.json.token | b64encode }}"
 
 - name: Create temporary directory for template files
   tempfile:

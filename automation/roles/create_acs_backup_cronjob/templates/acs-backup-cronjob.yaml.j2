@@ -19,7 +19,7 @@ spec:
                 - --output
                 - /mnt
                 - -e
-                - {{ acs_central_endpoint }}
+                - https://{{ acs_central_endpoint }}
                 - --insecure-skip-tls-verify
               command:
                 - roxctl
