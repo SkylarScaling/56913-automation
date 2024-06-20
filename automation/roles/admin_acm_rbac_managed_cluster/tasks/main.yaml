@@ -2,8 +2,8 @@
 - include_role:
     name: admin_get_service_account_token
   vars:
-    service_account_name: "{{ acm_service_account_name }}"
-    service_account_namespace: "{{ acm_service_account_namespace }}"
+    service_account_name: "{{ cluster_admin_service_account_name }}"
+    service_account_namespace: "{{ cluster_admin_service_account_namespace }}"
 
 - name: Create temporary directory for template files
   tempfile:
