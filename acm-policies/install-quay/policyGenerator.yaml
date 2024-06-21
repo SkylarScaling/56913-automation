@@ -56,6 +56,15 @@ policies:
       - name: policy-quay-status
     manifests:
       - path: config/policy-hub-quay-bridge.yaml
+  - name: policy-install-cso
+    categories:
+      - SI System and Information Integrity
+    controls:
+      - SI-7 Software Firmware and Information Integrity
+    dependencies:
+      - name: policy-quay-status
+    manifests:
+      - path: config/policy-install-cso.yaml
   - name: policy-quay-bridge
     categories:
       - SI System and Information Integrity
