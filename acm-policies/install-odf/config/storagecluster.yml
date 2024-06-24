@@ -1,3 +1,4 @@
+---
 apiVersion: ocs.openshift.io/v1
 kind: StorageCluster
 metadata:
@@ -28,21 +29,50 @@ spec:
         - key: node.ocs.openshift.io/storage
           effect: NoSchedule
           value: "true"
-  arbiter: {}
+  resourceProfile: balanced
+  storageDeviceSets:
+    - config: {}
+      count: 1
+      dataPVCTemplate:
+        metadata: {}
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: "1"
+          storageClassName: local-block
+          volumeMode: Block
+        status: {}
+      name: ocs-deviceset-local-block
+      placement: {}
+      preparePlacement: {}
+      replica: 4
+      resources: {}
   encryption:
     kms: {}
-  externalStorage: {}
+  mirroring: {}
+  monDataDirHostPath: /var/lib/rook
   managedResources:
     cephBlockPools: {}
     cephCluster: {}
     cephConfig: {}
     cephDashboard: {}
     cephFilesystems: {}
+    cephNonResilientPools:
+      count: 1
     cephObjectStoreUsers: {}
     cephObjectStores: {}
-    cephToolbox: {}
-  mirroring: {}
-  multiCloudGateway:
-    dbStorageClassName: gp3-csi
-    reconcileStrategy: standalone
----
+    cephRBDMirror:
+      daemonCount: 1
+    cephToolbox:
+      reconcileStrategy: init
+  enableCephTools: true
+  arbiter: {}
+  network:
+    connections:
+      encryption: {}
+    multiClusterService: {}
+  nodeTopologies: {}
+  externalStorage: {}
+  flexibleScaling: true
