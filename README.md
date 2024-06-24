@@ -1,5 +1,5 @@
 # Introduction
-This repository contains re-usable playbooks for use with OpenShift Container Platform, using Ansible automation.
+This repository contains re-usable playbooks and ACM policies for use with OpenShift Container Platform, using Ansible automation.
 
 # Structure
 ## acm-policies
@@ -55,7 +55,7 @@ Any commands provided are for linux systems.
 > python version = 3.6.8 (default, Mar 18 2021, 08:58:41) [GCC 8.4.1 20200928 (Red Hat 8.4.1-1)]
 > ```
 
-The utilites in the list below are also required, but can be installed automatically by executing the Ansible playbook listed below, once Ansible is installed.
+The utilities in the list below are also required, but can be installed automatically by executing the Ansible playbook listed below, once Ansible is installed.
 
 - [OpenShift CLI](https://docs.openshift.com/container-platform/4.7/cli_reference/openshift_cli/getting-started-cli.html) Installed
 - [Python Modules](https://docs.python.org/3/installing/index.html):
