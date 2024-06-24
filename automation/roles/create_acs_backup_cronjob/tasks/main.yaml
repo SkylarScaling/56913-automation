@@ -7,7 +7,7 @@
 
 - set_fact:
     acs_central_endpoint: "central-stackrox.apps.{{ cluster_address }}"
-    
+
 - name: Wait for ACS Central to become available
   kubernetes.core.k8s_info:
     host: "https://api.{{ cluster_address }}:6443"
