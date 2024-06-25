@@ -25,6 +25,10 @@ policies:
     - SC-1 Policy and Procedures
   manifests:
     - path: input-acs-central/policy-acs-operator-central.yaml
+      extraDependencies:
+          - name: odf-operator-status
+            kind: Policy
+            compliance: "Compliant"
 
 - name: policy-acs-central-status
   categories:
