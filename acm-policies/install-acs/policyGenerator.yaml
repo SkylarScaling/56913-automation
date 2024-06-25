@@ -23,6 +23,8 @@ policies:
     - SC System and Communications Protection
   controls: 
     - SC-1 Policy and Procedures
+  dependencies:
+    - name: odf-operator-status
   manifests:
     - path: input-acs-central/policy-acs-operator-central.yaml
 
