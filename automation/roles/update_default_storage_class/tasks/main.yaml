@@ -1,0 +1,50 @@
+---
+- name: "OpenShift CLI login"
+  shell: "oc login -u {{ admin_user }} -p {{ admin_password }} https://api.{{ cluster_address }}:6443 --insecure-skip-tls-verify"
+
+- name: Get StorageClasses
+  k8s_info:
+    host: "https://api.{{ cluster_address }}:6443"
+    validate_certs: no
+    kind: StorageClass
+  register: storage_classes
+
+- name: Make sure local-block StorageClass exists
+  k8s_info:
+    host: "https://api.{{ cluster_address }}:6443"
+    validate_certs: no
+    kind: StorageClass
+    name: local-block
+  register: lb_class
+  until: lb_class.resources | length > 0
+  retries: 60
+  delay: 10
+
+- name: Make local-block the default StorageClass
+  kubernetes.core.k8s:
+    host: "https://api.{{ cluster_address }}:6443"
+    validate_certs: no
+    definition:
+      apiVersion: storage.k8s.io/v1
+      kind: StorageClass
+      metadata:
+        name: local-block
+        annotations:
+          storageclass.kubernetes.io/is-default-class: 'true'
+
+- name: Patch existing StorageClasses to remove default
+  kubernetes.core.k8s:
+    host: "https://api.{{ cluster_address }}:6443"
+    validate_certs: no
+    definition:
+      apiVersion: storage.k8s.io/v1
+      kind: StorageClass
+      metadata:
+        name: "{{ item.metadata.name }}"
+        annotations:
+          storageclass.kubernetes.io/is-default-class: 'false'
+  with_items: "{{ storage_classes.resources }}"
+  when: item.metadata.name != "local-block"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+...

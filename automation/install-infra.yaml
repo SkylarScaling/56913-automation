@@ -63,6 +63,13 @@
         admin_password: "{{ cluster_admin_password }}"
 
     - include_role:
+        name: update_default_storage_class
+      vars:
+        cluster_address: "{{ ocp_cluster_address }}"
+        admin_user: "{{ cluster_admin_user }}"
+        admin_password: "{{ cluster_admin_password }}"
+
+    - include_role:
         name: install_mco_from_subscription
       vars:
         cluster_address: "{{ ocp_cluster_address }}"
