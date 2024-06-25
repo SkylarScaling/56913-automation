@@ -30,7 +30,6 @@ spec:
         - key: node.ocs.openshift.io/storage
           effect: NoSchedule
           value: "true"
-  resourceProfile: balanced
   storageDeviceSets:
     - config: {}
       count: 1
