@@ -82,18 +82,4 @@
         cluster_address: "{{ ocp_cluster_address }}"
         admin_user: "{{ cluster_admin_user }}"
         admin_password: "{{ cluster_admin_password }}"
-        
-    - include_role:
-        name: admin_create_cluster_admin_service_account
-      vars:
-        cluster_address: "{{ ocp_cluster_address }}"
-        admin_user: "{{ cluster_admin_user }}"
-        admin_password: "{{ cluster_admin_password }}"
-
-    - include_role:
-        name: create_acs_backup_cronjob
-      vars:
-        cluster_address: "{{ ocp_cluster_address }}"
-        admin_user: "{{ cluster_admin_user }}"
-        admin_password: "{{ cluster_admin_password }}"
 ...
