@@ -3,6 +3,7 @@ apiVersion: ocs.openshift.io/v1
 kind: StorageCluster
 metadata:
   annotations:
+    cluster.ocs.openshift.io/local-devices: "true"
     uninstall.ocs.openshift.io/cleanup-policy: delete
     uninstall.ocs.openshift.io/mode: graceful
   name: ocs-storagecluster
@@ -59,12 +60,10 @@ spec:
     cephConfig: {}
     cephDashboard: {}
     cephFilesystems: {}
-    cephNonResilientPools:
-      count: 1
+    cephNonResilientPools: {}
     cephObjectStoreUsers: {}
     cephObjectStores: {}
-    cephRBDMirror:
-      daemonCount: 1
+    cephRBDMirror: {}
     cephToolbox:
       reconcileStrategy: init
   enableCephTools: true
